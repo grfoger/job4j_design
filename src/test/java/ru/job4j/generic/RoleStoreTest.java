@@ -8,13 +8,6 @@ import static org.junit.Assert.*;
 
 public class RoleStoreTest {
 
-//    public static void main(String[] args) {
-//        RoleStore store = new RoleStore();
-//        store.add(new Role("1", "developer"));
-//        store.add(new Role("1", "developer2"));
-//        System.out.println(store.findById("1").getRole());
-//    }
-
     @Test
     public void whenAddAndFindThenUsernameIsPetr() {
         RoleStore store = new RoleStore();
