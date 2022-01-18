@@ -54,6 +54,6 @@ public class RoleStoreTest {
         store.add(new Role("3", "mentor"));
         store.replace("2", store.findById("3"));
         Role result = store.findById("2");
-        assertThat(result.getRole(), is("mentor"));
+        assertThat(result.getRole(), is("student"));
     }
 }
