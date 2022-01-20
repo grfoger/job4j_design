@@ -16,19 +16,6 @@ public class SimpleArrayList<T> implements List<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    public static void main(String[] args) {
-        SimpleArrayList<Integer> list = new SimpleArrayList<>(0);
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        list.remove(2);
-        for (int i: list) {
-            System.out.println(i);
-        }
-        System.out.println(list.isLastElementNull);
-    }
-
     @Override
     public void add(T value) {
         if (size == container.length) {
@@ -54,7 +41,6 @@ public class SimpleArrayList<T> implements List<T> {
             System.arraycopy(container, index + 1, container, index, newSize - index);
         }
         container[--size] = null;
-        isLastElementNull = container[size] == null;
         modCount++;
         return oldValue;
     }
