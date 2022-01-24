@@ -47,7 +47,6 @@ public class ForwardLinked<T> implements Iterable<T> {
             }
             isRevert = true;
         }
-        //TODO impl reverts of linked list.
         return isRevert;
     }
 
