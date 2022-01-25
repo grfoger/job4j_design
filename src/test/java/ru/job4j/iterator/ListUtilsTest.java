@@ -31,4 +31,11 @@ public class ListUtilsTest {
         assertThat(input, is(Arrays.asList(0, 1, 2, 3)));
     }
 
+    @Test
+    public void whenRemove() {
+        List<Integer> input = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
+        ListUtils.removeIf(input, x -> x%2 != 0);
+        assertThat(input, is(Arrays.asList(0, 2, 4)));
+    }
+
 }
