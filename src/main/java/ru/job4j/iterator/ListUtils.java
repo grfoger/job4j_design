@@ -31,11 +31,11 @@ public class ListUtils {
         Objects.checkIndex(index, list.size());
         ListIterator<T> iterator = list.listIterator();
         while (iterator.hasNext()) {
-            if (iterator.nextIndex() == index) {
+            iterator.next();
+            if (iterator.previousIndex() == index) {
                 iterator.add(value);
                 break;
             }
-            iterator.next();
         }
     }
 
