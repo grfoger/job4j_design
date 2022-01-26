@@ -17,16 +17,6 @@ public class ListUtils {
         }
     }
 
-    /**
-     Реализовать недостающие методы в классе ListUtils:
-- addAfter() вставляет после индекса;
-- addBefore() вставляет до индекса;
-- removeIf() удаляет все элементы, которые удовлетворяют предикату. Запрещено использовать метод List.removeIf;
-- replaceIf() заменяет все элементы, которые удовлетворяют предикату;
-- removeAll() удаляет из списка те элементы, которые есть в elements. Запрещено использовать метод List.removeAll().
-- Запрещено использовать методы List.removeIf(),  List.removeAll()
-     */
-
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
         ListIterator<T> iterator = list.listIterator();
@@ -42,18 +32,27 @@ public class ListUtils {
     public static <T> void removeIf(List<T> list, Predicate<T> filter) {
         ListIterator<T> iterator = list.listIterator();
         while (iterator.hasNext()) {
-            if (filter.test(iterator.next())){
+            if (filter.test(iterator.next())) {
                 iterator.remove();
             }
         }
     }
 
     public static <T> void replaceIf(List<T> list, Predicate<T> filter, T value) {
-
+        ListIterator<T> iterator = list.listIterator();
+        while (iterator.hasNext()) {
+            if (filter.test(iterator.next())) {
+                iterator.set(value);
+            }
+        }
     }
 
     public static <T> void removeAll(List<T> list, List<T> elements) {
-
+        ListIterator<T> iterator = elements.listIterator();
+        while (iterator.hasNext()) {
+            T i = iterator.next();
+            removeIf(list, x -> x.equals(i));
+        }
     }
 
 }
