@@ -22,4 +22,26 @@ public class SimpleSetTest {
         assertFalse(set.add(null));
     }
 
+    @Test
+    public void whenMultiAdd() {
+        Set<Integer> set = new SimpleSet<>();
+        assertTrue(set.add(1));
+        assertTrue(set.add(2));
+        assertTrue(set.add(null));
+        assertFalse(set.add(1));
+        assertTrue(set.add(3));
+    }
+
+    @Test
+    public void whenMultiContains() {
+        Set<Integer> set = new SimpleSet<>();
+        assertTrue(set.add(1));
+        assertTrue(set.add(null));
+        assertTrue(set.add(3));
+        assertTrue(set.contains(1));
+        assertFalse(set.contains(2));
+        assertTrue(set.contains(3));
+        assertTrue(set.contains(null));
+    }
+
 }
