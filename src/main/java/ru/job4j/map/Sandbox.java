@@ -17,6 +17,12 @@ public class Sandbox {
         for (Map.Entry<User, Object> entry: map.entrySet()) {
             System.out.println("Key: " + entry.getKey() + " value: " + entry.getValue());
         }
+        System.out.println(user1.getBirthday());
+        System.out.println(user2.getBirthday());
+
+        System.out.println(user1.hashCode());
+        System.out.println(user2.hashCode());
+        System.out.println(user2.equals(user1));
     }
 }
 
