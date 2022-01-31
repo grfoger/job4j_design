@@ -8,21 +8,12 @@ import java.util.*;
 
 public class Sandbox {
     public static void main(String[] args) {
-        Calendar calendar = new GregorianCalendar();
-        User user1 = new User("Глоин", 1, calendar);
-        User user2 = new User("Глоин", 1, calendar);
-        Map<User, Object> map = new HashMap<>();
-        map.put(user1, new Object());
-        map.put(user2, new Object());
-        for (Map.Entry<User, Object> entry: map.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + " value: " + entry.getValue());
-        }
-        System.out.println(user1.getBirthday());
-        System.out.println(user2.getBirthday());
+       Map<String, Integer> map = new SimpleMap<>();
+       map.put("один", 1);
+       map.put("один", 1);
+       map.put("один", 1);
 
-        System.out.println(user1.hashCode());
-        System.out.println(user2.hashCode());
-        System.out.println(user2.equals(user1));
+        System.out.println(map.get("один"));
     }
 }
 
