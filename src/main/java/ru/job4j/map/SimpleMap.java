@@ -98,6 +98,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
+                while (point < capacity && table[point] == null) {
+                    point++;
+                }
                 return point < capacity;
             }
 
@@ -106,12 +109,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                K key = null;
-                if (table[point] != null) {
-                    key = table[point].key;
-                }
-                point++;
-                return key;
+                return table[point++].key;
             }
 
         };

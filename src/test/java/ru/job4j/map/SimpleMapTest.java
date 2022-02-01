@@ -23,9 +23,9 @@ public class SimpleMapTest {
     @Test
     public void whenIterate() {
         Map<String, Integer> map = new SimpleMap<>();
-        map.put("один", 1);
-        map.put("два", 2);
-        map.put("три", 3);
+        map.put("one", 1);
+        map.put("two", 2);
+        map.put("three ", 3);
         Iterator<String> iterator = map.iterator();
         int size = 0;
         while (iterator.hasNext()){
