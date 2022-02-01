@@ -9,16 +9,18 @@ import java.util.*;
 public class Sandbox {
 
     public static void main(String[] args) {
-       Map<String, Integer> map = new SimpleMap<>();
-       map.put("один", 1);
-       map.put("один", 1);
-       map.put("один", 1);
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("один", 1);
+        map.put("два", 2);
+        map.put("три", 3);
+        //System.out.println(map.get("два"));
+        Iterator<String> iterator = map.iterator();
+        int size = 0;
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
 
-        System.out.println(map.get("один"));
-        int i = 3;
-        int j = 8;
-        float k = (float) i / j;
-        System.out.println(k);
+        //System.out.println(size);
     }
 }
 
