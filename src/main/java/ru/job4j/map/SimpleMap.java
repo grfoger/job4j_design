@@ -43,7 +43,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private void expand() {
-        float currentLoad = count == 0 ? 0 : count / capacity;
+        float currentLoad = (float) count / capacity;
         if (currentLoad >= LOAD_FACTOR) {
             MapEntry<K, V>[]tempTable = new MapEntry[capacity * 2];
             capacity = capacity * 2;
@@ -71,7 +71,20 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean remove(K key) {
-        return false;
+        boolean isRemoved = false;
+        for (int i = 0; i < capacity; i++) {
+            if (table[i] == null) {
+                continue;
+            }
+            if (hash(key.hashCode()) == hash(table[i].key.hashCode())
+                    && (key == table[i].key) || (key != null && key.equals(table[i]))) {
+                table[i] = null;
+                isRemoved = true;
+                count--;
+                modCount++;
+            }
+        }
+        return isRemoved;
     }
 
     @Override
