@@ -13,14 +13,11 @@ public class Sandbox {
         map.put("один", 1);
         map.put("два", 2);
         map.put("три", 3);
-        //System.out.println(map.get("два"));
         Iterator<String> iterator = map.iterator();
         int size = 0;
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
-
-        //System.out.println(size);
     }
 }
 

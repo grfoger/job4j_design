@@ -24,12 +24,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
         expand();
         boolean isPut = false;
         int index = indexFor(hash(key.hashCode()));
-        if (table[index] == null) {
+        if ((table[index] == null)
+                || ((hash(table[index].key.hashCode()) == (hash(key.hashCode())))
+                && key.equals(table[index].key)
+                && !table[index].value.equals(value))) {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
             isPut = true;
-
         }
         return isPut;
     }
@@ -48,7 +50,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
             MapEntry<K, V>[] tempTable = new MapEntry[capacity * 2];
             capacity = capacity * 2;
             for (MapEntry<K, V> kvMapEntry : table) {
-                tempTable[indexFor(hash(kvMapEntry.key.hashCode()))] = kvMapEntry;
+                if (kvMapEntry != null) {
+                    tempTable[indexFor(hash(kvMapEntry.key.hashCode()))] = kvMapEntry;
+                }
+
             }
             table = tempTable;
         }

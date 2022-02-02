@@ -11,28 +11,88 @@ import static org.junit.Assert.*;
 public class SimpleMapTest {
 
     @Test
-    public void whenMultiPutAndGet() {
+    public void whenMultiOnePutAndGet() {
         Map<String, Integer> map = new SimpleMap<>();
-        map.put("один", 1);
-        map.put("один", 1);
-        map.put("один", 1);
-        int value = map.get("один");
-        assertEquals(value, 1);
+        map.put("#1", 1);
+        map.put("#1", 1);
+        map.put("#1", 1);
+        int value = map.get("#1");
+        assertEquals(1, value);
     }
 
     @Test
     public void whenIterate() {
         Map<String, Integer> map = new SimpleMap<>();
-        map.put("one", 1);
-        map.put("two", 2);
-        map.put("three ", 3);
+        map.put("#1", 1);
+        map.put("#2", 2);
+        map.put("#3", 3);
         Iterator<String> iterator = map.iterator();
         int size = 0;
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             iterator.next();
             size++;
         }
-        assertEquals(size, 3);
+        assertEquals(3, size);
     }
 
+    @Test
+    public void whenPutOverCapacity() {
+        Map<String, Integer> map = new SimpleMap<>();
+        for (int i = 0; i < 10; i++) {
+            map.put("#" + i, i);
+        }
+        for (int i = 0; i < 10; i++) {
+            if (map.get("#" + i) != null) {
+                int value = map.get("#" + i);
+                assertEquals(value, i);
+            }
+        }
+    }
+
+    @Test
+    public void whenPutWithReplace() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("#1", 1);
+        map.put("#1", 42);
+        int value = map.get("#1");
+        assertEquals(42, value);
+    }
+
+    @Test
+    public void whenGetNullValue() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("#1", null);
+        assertNull(map.get("#1"));
+    }
+
+    @Test
+    public void whenIterateAndRemove() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("#1", 1);
+        map.put("#2", 2);
+        map.put("#3", 3);
+        assertTrue(map.remove("#2"));
+        Iterator<String> iterator = map.iterator();
+        int size = 0;
+        while (iterator.hasNext()) {
+            iterator.next();
+            size++;
+        }
+        assertEquals(2, size);
+    }
+
+    @Test
+    public void whenPutGetRemove() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("#1", 1);
+        assertTrue(map.remove("#1"));
+        assertNull(map.get("#1"));
+    }
+
+    @Test
+    public void whenPutFalse() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("#1", 1);
+        assertFalse(map.put("#1", 1));
+    }
 }
