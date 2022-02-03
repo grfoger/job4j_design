@@ -95,4 +95,10 @@ public class SimpleMapTest {
         map.put("#1", 1);
         assertFalse(map.put("#1", 1));
     }
+
+    @Test
+    public void whenPutNull() {
+        Map<String, Integer> map = new SimpleMap<>();
+        assertFalse(map.put(null, 1));
+    }
 }

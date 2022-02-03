@@ -18,17 +18,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        if (key == null) {
-            throw new NullPointerException();
-        }
         expand();
         boolean isPut = false;
-        int index = indexFor(hash(key.hashCode()));
-        if (table[index] == null) {
-            table[index] = new MapEntry<>(key, value);
-            count++;
-            modCount++;
-            isPut = true;
+        int index;
+        if (key != null) {
+            index = indexFor(hash(key.hashCode()));
+            if (table[index] == null) {
+                table[index] = new MapEntry<>(key, value);
+                count++;
+                modCount++;
+                isPut = true;
+            }
         }
         return isPut;
     }
@@ -48,7 +48,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
             capacity = capacity * 2;
             for (MapEntry<K, V> kvMapEntry : table) {
                 if (kvMapEntry != null) {
-                    tempTable[indexFor(hash(kvMapEntry.key.hashCode()))] = kvMapEntry;
+                    int index = indexFor(hash(kvMapEntry.key.hashCode()));
+                    tempTable[index] = kvMapEntry;
                 }
 
             }
@@ -60,9 +61,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public V get(K key) {
         V value = null;
         int index = indexFor(hash(key.hashCode()));
-        if (table[index] != null
-                && (hash(key.hashCode()) == hash(table[index].key.hashCode())
-                && (key == table[index].key) || (key.equals(table[index])))) {
+        if (table[index] != null || (key.equals(table[index]))) {
             value = table[index].value;
         }
         return value;
@@ -72,9 +71,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean isRemoved = false;
         int index = indexFor(hash(key.hashCode()));
-        if (table[index] != null
-                && (hash(key.hashCode()) == hash(table[index].key.hashCode())
-                && (key == table[index].key) || (key.equals(table[index])))) {
+        if (table[index] != null || (key.equals(table[index]))) {
             table[index] = null;
             isRemoved = true;
             count--;

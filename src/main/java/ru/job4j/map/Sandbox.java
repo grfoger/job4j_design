@@ -13,6 +13,9 @@ public class Sandbox {
         map.put("один", 1);
         map.put("два", 2);
         map.put("три", 3);
+        String word = "слово";
+        String anotherWord = "слово";
+        System.out.println(word == anotherWord);
         Iterator<String> iterator = map.iterator();
         int size = 0;
         while (iterator.hasNext()) {
