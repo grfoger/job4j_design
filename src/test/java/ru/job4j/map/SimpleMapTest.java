@@ -50,12 +50,12 @@ public class SimpleMapTest {
     }
 
     @Test
-    public void whenPutWithReplace() {
+    public void whenPutInBusy() {
         Map<String, Integer> map = new SimpleMap<>();
         map.put("#1", 1);
-        map.put("#1", 42);
+        assertFalse(map.put("#1", 42));
         int value = map.get("#1");
-        assertEquals(42, value);
+        assertEquals(1, value);
     }
 
     @Test

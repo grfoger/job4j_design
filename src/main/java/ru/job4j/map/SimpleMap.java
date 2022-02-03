@@ -24,10 +24,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         expand();
         boolean isPut = false;
         int index = indexFor(hash(key.hashCode()));
-        if ((table[index] == null)
-                || ((hash(table[index].key.hashCode()) == (hash(key.hashCode())))
-                && key.equals(table[index].key)
-                && !table[index].value.equals(value))) {
+        if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
@@ -62,14 +59,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         V value = null;
-        for (int i = 0; i < capacity; i++) {
-            if (table[i] == null) {
-                continue;
-            }
-            if (hash(key.hashCode()) == hash(table[i].key.hashCode())
-                    && (key == table[i].key) || (key.equals(table[i]))) {
-                value = table[i].value;
-            }
+        int index = indexFor(hash(key.hashCode()));
+        if (table[index] != null
+                && (hash(key.hashCode()) == hash(table[index].key.hashCode())
+                && (key == table[index].key) || (key.equals(table[index])))) {
+            value = table[index].value;
         }
         return value;
     }
@@ -77,17 +71,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean isRemoved = false;
-        for (int i = 0; i < capacity; i++) {
-            if (table[i] == null) {
-                continue;
-            }
-            if (hash(key.hashCode()) == hash(table[i].key.hashCode())
-                    && (key == table[i].key) || (key.equals(table[i]))) {
-                table[i] = null;
-                isRemoved = true;
-                count--;
-                modCount++;
-            }
+        int index = indexFor(hash(key.hashCode()));
+        if (table[index] != null
+                && (hash(key.hashCode()) == hash(table[index].key.hashCode())
+                && (key == table[index].key) || (key.equals(table[index])))) {
+            table[index] = null;
+            isRemoved = true;
+            count--;
+            modCount++;
         }
         return isRemoved;
     }
