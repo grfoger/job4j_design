@@ -58,6 +58,4 @@ public class Info {
         return result;
     }
 
-    /* Геттеры, сеттеры, equals() & hashCode() */
-
 }
