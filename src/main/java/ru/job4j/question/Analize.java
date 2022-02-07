@@ -10,6 +10,20 @@ public class Analize {
         int added = 0;
         int changed = 0;
         int deleted = 0;
+        for (User user: current) {
+            if (!previous.contains(user)) {
+                added++;
+            }
+            if (previous.contains(user)){
+                user.getId();
+            }
+        }
+        for (User user: previous) {
+            if (!current.contains(user)) {
+                deleted++;
+            }
+        }
+
         return new Info(added, changed, deleted);
     }
 
