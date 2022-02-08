@@ -15,21 +15,21 @@ public class Analize {
         Map<Integer, String> mapCurrent = current.stream().collect(Collectors.toMap(User::getId, User::getName));
 
 
-        for (Map.Entry<Integer, String> entry : mapCurrent.entrySet()) {
-            if (!mapPrevious.containsKey(entry.getKey())) {
+        for (User user : current) {
+            if (!mapPrevious.containsKey(user.getId())) {
                 added++;
+            }
+        }
+
+        for (User user : previous) {
+            if (!mapCurrent.containsKey(user.getId())) {
+                deleted++;
             }
         }
 
         for (User user : current) {
             if (mapPrevious.get(user.getId()) != null && !user.getName().equals(mapPrevious.get(user.getId()))) {
                 changed++;
-            }
-        }
-
-        for (Map.Entry<Integer, String> entry : mapPrevious.entrySet()) {
-            if (!mapCurrent.containsKey(entry.getKey())) {
-                deleted++;
             }
         }
 
