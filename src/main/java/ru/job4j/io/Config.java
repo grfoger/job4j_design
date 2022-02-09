@@ -22,7 +22,7 @@ public class Config {
                 if (x.contains("=") && !x.startsWith("#")) {
                     String[] mapElement = x.split("=");
                     if (mapElement.length == 1) {
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException("Please be so kind, if it's not oo much trouble, check your properties. Key or Value is not exist!");
                     }
                     if (mapElement.length == 2) {
                         values.put(mapElement[0], mapElement[1]);
