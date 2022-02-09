@@ -26,6 +26,7 @@ public class ConfigTest {
         config.load();
         assertThat(config.value("user"), is("grfoger"));
         assertThat(config.value("user_mail"), is("grfoger@gmail.com"));
+        assertThat(config.value("#user_mail"), is(Matchers.nullValue()));
     }
 
     @Test (expected = IllegalArgumentException.class)

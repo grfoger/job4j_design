@@ -19,7 +19,7 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             in.lines().forEach(x -> {
-                if (x.contains("=")) {
+                if (x.contains("=") && !x.startsWith("#")) {
                     String[] mapElement = x.split("=");
                     if (mapElement.length == 1) {
                         throw new IllegalArgumentException();
