@@ -16,20 +16,17 @@ public class Analize {
 
 
         for (User user : current) {
-            if (!mapPrevious.containsKey(user.getId())) {
+            if (!previous.contains(user)) {
                 added++;
             }
         }
 
         for (User user : previous) {
+            if (mapCurrent.get(user.getId()) != null && !user.getName().equals(mapCurrent.get(user.getId()))) {
+                changed++;
+            }
             if (!mapCurrent.containsKey(user.getId())) {
                 deleted++;
-            }
-        }
-
-        for (User user : current) {
-            if (mapPrevious.get(user.getId()) != null && !user.getName().equals(mapPrevious.get(user.getId()))) {
-                changed++;
             }
         }
 
