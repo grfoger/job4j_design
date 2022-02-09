@@ -10,7 +10,7 @@ public class LogFilter {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             in.lines().forEach(x -> {
                 String[] parts = x.split(" ");
-                if (parts[parts.length - 2].equals("404")) {
+                if ("404".equals(parts[parts.length - 2])) {
                     list.add(x);
                 }
             });
