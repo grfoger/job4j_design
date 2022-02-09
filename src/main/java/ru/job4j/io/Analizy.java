@@ -10,7 +10,8 @@ import java.util.List;
 public class Analizy {
     public void unavailable(String source, String target) {
         List<String> log = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(source))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(source));
+             PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
             String start = null;
             String end = null;
 
@@ -21,19 +22,11 @@ public class Analizy {
                 }
                 if (start != null && end == null && (!"400".equals(parts[0]) && !"500".equals(parts[0]))) {
                     end = parts[1];
-                    log.add(start + ";" + end + ";");
+                    out.println(start + ";" + end + ";");
                     start = null;
                     end = null;
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
-            log.forEach(out::println);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
