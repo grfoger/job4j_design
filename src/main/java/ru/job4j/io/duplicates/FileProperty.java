@@ -1,5 +1,9 @@
 package ru.job4j.io.duplicates;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class FileProperty {
@@ -7,6 +11,7 @@ public class FileProperty {
     private long size;
 
     private String name;
+
 
     public FileProperty(long size, String name) {
         this.size = size;
