@@ -17,14 +17,14 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 public class Search {
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            throw new IllegalArgumentException("Please, check the input of the source data. Usage java -jar dir.jar ROOT_FOLDER FILE_EXTENSION.");
+            throw new IllegalArgumentException("Please, check the input of the source data. Usage java -jar search.jar ROOT_FOLDER FILE_EXTENSION.");
         }
         File file = new File(args[0]);
         if (!file.exists() || !file.isDirectory()) {
             throw new IllegalArgumentException("First argument is not exist or not folder. Please check your path.");
         }
         String extension = args[1];
-        if (extension.startsWith("/.")) {
+        if (!extension.startsWith(".")) {
             throw new IllegalArgumentException("Second argument is not extension. Please check.");
         }
         Path start = Paths.get(args[0]);
