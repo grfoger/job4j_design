@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,11 +16,16 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        if (args.length == 0 || args[0] == null) {
-            throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Please, check the input of the source data. Usage java -jar dir.jar ROOT_FOLDER FILE_EXTENSION.");
         }
-        if (args[1] == null) {
-            throw new IllegalArgumentException("Filename extension is null. Usage java -jar dir.jar ROOT_FOLDER.");
+        File file = new File(args[0]);
+        if (!file.exists() || !file.isDirectory()) {
+            throw new IllegalArgumentException("First argument is not exist or not folder. Please check your path.");
+        }
+        String extension = args[1];
+        if (extension.startsWith("/.")) {
+            throw new IllegalArgumentException("Second argument is not extension. Please check.");
         }
         Path start = Paths.get(args[0]);
         search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
