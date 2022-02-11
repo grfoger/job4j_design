@@ -16,8 +16,8 @@ public class ArgsName {
             throw new IllegalArgumentException("Have not arguments.");
         }
 
-        for (int i = 0; i< args.length; i++) {
-            String[] pair = args[i].split("=",2);
+        for (int i = 0; i < args.length; i++) {
+            String[] pair = args[i].split("=", 2);
             if (pair[0] == null || pair[0].length() == 0 || !pair[0].startsWith("-")) {
                 throw new IllegalArgumentException("Wrong key of argument.");
             }
