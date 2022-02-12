@@ -8,7 +8,23 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new IllegalArgumentException("Have not such key");
+        }
         return values.get(key);
+    }
+
+    private void validateArg(String arg) {
+        if (!arg.startsWith("-") || arg.startsWith("=") || arg.startsWith("-=")) {
+                throw new IllegalArgumentException("Wrong key of argument.");
+        }
+        if (!arg.contains("=")) {
+            throw new IllegalArgumentException("Wrong argument.");
+        }
+        String[] countChars = arg.split("=");
+        if (countChars.length == 2 && arg.endsWith("=")) {
+            throw new IllegalArgumentException("Wrong value of argument.");
+        }
     }
 
     private void parse(String[] args) {
@@ -17,13 +33,8 @@ public class ArgsName {
         }
 
         for (int i = 0; i < args.length; i++) {
+            validateArg(args[i]);
             String[] pair = args[i].split("=", 2);
-            if (pair[0] == null || pair[0].length() == 0 || !pair[0].startsWith("-")) {
-                throw new IllegalArgumentException("Wrong key of argument.");
-            }
-            if (pair[1] == null || pair[1].length() == 0) {
-                throw new IllegalArgumentException("Wrong value of argument.");
-            }
             values.put(pair[0].substring(1), pair[1]);
         }
     }

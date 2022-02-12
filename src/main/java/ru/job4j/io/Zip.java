@@ -24,6 +24,8 @@ public class Zip {
     }
 
     public static void main(String[] args) {
+        ArgsName arguments = ArgsName.of(args);
+        System.out.println(arguments.get("e"));
         Zip zip = new Zip();
         zip.packSingleFile(
                 new File("./pom.xml"),
