@@ -22,7 +22,7 @@ public class ArgsName {
             throw new IllegalArgumentException("Wrong argument.");
         }
         String[] countChars = arg.split("=");
-        if (countChars.length == 2 && arg.endsWith("=")) {
+        if (countChars.length == 1 && arg.endsWith("=")) {
             throw new IllegalArgumentException("Wrong value of argument.");
         }
     }
