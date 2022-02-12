@@ -21,8 +21,13 @@ public class ArgsName {
         if (!arg.contains("=")) {
             throw new IllegalArgumentException("Wrong argument.");
         }
-        String[] countChars = arg.split("=");
-        if (countChars.length == 1 && arg.endsWith("=")) {
+        int countChars = 0;
+        for (int i = 0; i < arg.length(); i++){
+            if (arg.charAt(i) == '=') {
+                countChars++;
+            }
+        }
+        if (countChars == 1 && arg.endsWith("=")) {
             throw new IllegalArgumentException("Wrong value of argument.");
         }
     }
