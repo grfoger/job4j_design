@@ -1,6 +1,8 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -9,7 +11,7 @@ public class Zip {
 
 
     public void packFiles(List<File> sources, File target) {
-
+        sources.forEach(x -> packSingleFile(x,target));
     }
 
     public void packSingleFile(File source, File target) {
@@ -25,11 +27,20 @@ public class Zip {
 
     public static void main(String[] args) {
         ArgsName arguments = ArgsName.of(args);
-        System.out.println(arguments.get("e"));
+
+        List<File> fileList = new ArrayList<>();
+        try {
+            Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Zip zip = new Zip();
-        zip.packSingleFile(
-                new File("./pom.xml"),
-                new File("./pom.zip")
-        );
+        zip.packFiles(fileList,new File(arguments.get("o")));
+
+//        zip.packSingleFile(
+//                new File(arguments.get("d")),
+//                new File(arguments.get("o"))
+//        );
     }
 }

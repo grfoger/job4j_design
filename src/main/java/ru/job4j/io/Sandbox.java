@@ -15,7 +15,8 @@ public class Sandbox {
     public static void main(String[] args) {
         String sp = "value=";
         String[] spA = sp.split("=");
-        System.out.println(spA.length);
+        boolean is = sp.endsWith("ue=");
+        System.out.println(is);
     }
 }
 
