@@ -22,7 +22,7 @@ public class ArgsName {
             throw new IllegalArgumentException("Wrong argument.");
         }
         int countChars = 0;
-        for (int i = 0; i < arg.length(); i++){
+        for (int i = 0; i < arg.length(); i++) {
             if (arg.charAt(i) == '=') {
                 countChars++;
             }
