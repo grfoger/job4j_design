@@ -11,7 +11,25 @@ public class Zip {
 
 
     public void packFiles(List<File> sources, File target) {
-        sources.forEach(x -> packSingleFile(x,target));
+
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (File source: sources) {
+                String path = source.getPath().substring(16);
+                try {
+                    zip.putNextEntry(new ZipEntry(source.getPath()));
+                    try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+                        zip.write(out.readAllBytes());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void packSingleFile(File source, File target) {
@@ -36,11 +54,12 @@ public class Zip {
         }
 
         Zip zip = new Zip();
-        zip.packFiles(fileList,new File(arguments.get("o")));
+       zip.packFiles(fileList,new File(arguments.get("o")));
 
 //        zip.packSingleFile(
-//                new File(arguments.get("d")),
-//                new File(arguments.get("o"))
+//                new File("result.txt"),
+//                new File("result.zip")
 //        );
+        //System.out.println(fileList.toString());
     }
 }
