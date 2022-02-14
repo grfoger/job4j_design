@@ -9,12 +9,13 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
+    private static String root = null;
 
     public void packFiles(List<File> sources, File target) {
 
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (File source: sources) {
-                String path = source.getPath().substring(17);
+                String path = source.getPath().substring(root.length());
                 try {
                     zip.putNextEntry(new ZipEntry(path));
                     try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
@@ -45,7 +46,7 @@ public class Zip {
 
     public static void main(String[] args) {
         ArgsName arguments = ArgsName.of(args);
-
+        root = arguments.get("d");
         List<File> fileList = new ArrayList<>();
         try {
             Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
