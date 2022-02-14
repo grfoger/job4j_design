@@ -45,7 +45,7 @@ public class Zip {
     }
 
     private static void validateArgs(ArgsName arguments) {
-        if (arguments.get("d")==null || arguments.get("o")==null || arguments.get("e")==null) {
+        if (arguments.get("d") == null || arguments.get("o") == null || arguments.get("e") == null) {
             throw new IllegalArgumentException("Have not needed arguments.");
         }
         if (!new File(arguments.get("d")).exists()) {
@@ -61,7 +61,7 @@ public class Zip {
         Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
 
         Zip zip = new Zip();
-        zip.packFiles(fileList,new File(arguments.get("o")));
+        zip.packFiles(fileList, new File(arguments.get("o")));
 
     }
 }
