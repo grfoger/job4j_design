@@ -1,10 +1,10 @@
 package ru.job4j.io.chat;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ConsoleChat {
 
@@ -22,20 +22,38 @@ public class ConsoleChat {
     public void run() {
         List<String> phrases = readPhrases();
         List<String> log = new ArrayList<>();
-        String input = null;
         boolean isRun = true;
-        while (isRun) {
-            if (OUT.equals(input)) {
-                saveLog(log);
-                isRun = false;
+        boolean isNotPaused = true;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in));) {
+            while (isRun) {
+                String input = in.readLine();
+                log.add(input);
+                if (STOP.equals(input)) {
+                    isNotPaused = false;
+                }
+                if (CONTINUE.equals(input)) {
+                    isNotPaused = true;
+                }
+                if (OUT.equals(input)) {
+                    saveLog(log);
+                    isRun = false;
+                }
+                if (isNotPaused && isRun) {
+                    String answer = phrases.get(new Random().nextInt(phrases.size()));
+                    System.out.println(answer);
+                    log.add(answer);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        System.out.println("Chat is closed. See you later.");
 
     }
 
     private List<String> readPhrases() {
         List<String> phrases = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(botAnswers))) {
             reader.lines().forEach(phrases::add);
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +70,7 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("", "");
+        ConsoleChat cc = new ConsoleChat("chat_log.txt", "bot.txt");
         cc.run();
     }
 }
