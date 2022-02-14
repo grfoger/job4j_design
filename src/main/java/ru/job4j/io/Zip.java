@@ -15,7 +15,7 @@ public class Zip {
 
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (File source : sources) {
-                zip.putNextEntry(new ZipEntry(source.getPath().substring(root.length())));
+                zip.putNextEntry(new ZipEntry(source.getPath()));
                 try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
                     zip.write(out.readAllBytes());
                 } catch (Exception e) {
@@ -43,7 +43,6 @@ public class Zip {
         root = arguments.get("d");
         List<File> fileList = new ArrayList<>();
         Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
-
         Zip zip = new Zip();
         zip.packFiles(fileList, new File(arguments.get("o")));
 
