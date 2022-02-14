@@ -44,23 +44,24 @@ public class Zip {
         }
     }
 
-    public static void main(String[] args) {
+    private static void validateArgs(ArgsName arguments) {
+        if (arguments.get("d")==null || arguments.get("o")==null || arguments.get("e")==null) {
+            throw new IllegalArgumentException("Have not needed arguments.");
+        }
+        if (!new File(arguments.get("d")).exists()) {
+            throw new IllegalArgumentException("File or folder is not exist. Please check your path.");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
         ArgsName arguments = ArgsName.of(args);
+        validateArgs(arguments);
         root = arguments.get("d");
         List<File> fileList = new ArrayList<>();
-        try {
-            Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Search.search(Path.of(arguments.get("d")), x -> !x.toString().endsWith(arguments.get("e"))).forEach(x -> fileList.add(x.toFile()));
 
         Zip zip = new Zip();
-       zip.packFiles(fileList,new File(arguments.get("o")));
+        zip.packFiles(fileList,new File(arguments.get("o")));
 
-//        zip.packSingleFile(
-//                new File("result.txt"),
-//                new File("result.zip")
-//        );
-        //System.out.println(fileList.toString());
     }
 }
