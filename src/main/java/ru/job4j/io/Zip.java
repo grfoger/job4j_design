@@ -14,15 +14,10 @@ public class Zip {
     public void packFiles(List<File> sources, File target) {
 
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            for (File source: sources) {
-                String path = source.getPath().substring(root.length());
-                try {
-                    zip.putNextEntry(new ZipEntry(path));
-                    try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                        zip.write(out.readAllBytes());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            for (File source : sources) {
+                zip.putNextEntry(new ZipEntry(source.getPath().substring(root.length())));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+                    zip.write(out.readAllBytes());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -31,17 +26,6 @@ public class Zip {
             e.printStackTrace();
         }
 
-    }
-
-    public void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void validateArgs(ArgsName arguments) {
