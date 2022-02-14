@@ -14,8 +14,8 @@ public class CSVReader {
             List<String> list = new ArrayList<>();
             StringJoiner joiner = new StringJoiner(argsName.get("delimiter"));
             while (in.hasNext()) {
-                in.useDelimiter(argsName.get("delimiter"));
                 String line = in.nextLine();
+                Scanner scan = new Scanner(line).useDelimiter(argsName.get("delimiter"));
                 out.println(" ");
                 out.write(" ");
             }
