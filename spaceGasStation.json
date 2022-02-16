@@ -1,0 +1,13 @@
+
+{
+        "isBusy" : true,
+        "availableFuel" : 1704,
+        "refuelType" : {
+                "shipType" : "spaceTruck",
+                "fuelCapacity" : 24.5,
+                "shipLength" : 5
+        },
+        "operations" : ["prepare","docking","refuel","undocking"]
+}
+
+
