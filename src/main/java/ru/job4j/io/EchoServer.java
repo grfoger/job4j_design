@@ -22,9 +22,9 @@ public class EchoServer {
                         if (str.contains("/?msg=Exit")) {
                             server.close();
                         } else if (str.contains("/?msg=Hello")) {
-                            System.out.println("Hello world");
+                            out.write("Hello, dear friend.".getBytes());
                         } else {
-                            System.out.println("What?");
+                            out.write("What?".getBytes());
                         }
 
                     out.flush();
