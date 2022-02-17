@@ -31,6 +31,22 @@ public class SpaceGasStation {
         this.operations = operations;
     }
 
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public int getAvailableFuel() {
+        return availableFuel;
+    }
+
+    public SpaceShip getRefuelType() {
+        return refuelType;
+    }
+
+    public String[] getOperations() {
+        return operations;
+    }
+
     @Override
     public String toString() {
         return "SpaceGasStation{"

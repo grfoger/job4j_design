@@ -25,6 +25,18 @@ public class SpaceShip {
         id++;
     }
 
+    public String getShipType() {
+        return shipType;
+    }
+
+    public float getFuelCapacity() {
+        return fuelCapacity;
+    }
+
+    public int getShipLength() {
+        return shipLength;
+    }
+
     @Override
     public String toString() {
         return "SpaceShip{"
