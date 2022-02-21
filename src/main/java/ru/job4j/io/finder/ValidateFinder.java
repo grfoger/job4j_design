@@ -45,6 +45,9 @@ public class ValidateFinder {
         if (!"mask".equals(arguments.get("t")) && !"name".equals(arguments.get("t")) && !"regex".equals(arguments.get("t"))) {
             throw new IllegalArgumentException("Wrong type of search. Please choose \"mask\", or \"name\", or \"regex\".");
         }
+        if ("mask".equals(arguments.get("t")) && !arguments.get("n").contains("*")) {
+            throw new IllegalArgumentException("Wrong type of mask.");
+        }
         if (!arguments.get("o").contains(".")) {
             throw new IllegalArgumentException("Please specify the file extension.");
         }

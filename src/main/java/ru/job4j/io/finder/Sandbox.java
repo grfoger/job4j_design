@@ -8,8 +8,10 @@ import java.nio.file.Path;
 public class Sandbox {
 
     public static void main(String[] args) {
-        Path path = Path.of("G:\\Архипелаг\\Работа\\Объекты\\141_Толбино\\141_Толбино-КР-02.bak");
-        System.out.println(path.getFileName().toString());
+        String[] parts = "*.txt".split("\\*");
+        for (String part: parts) {
+            System.out.println(part);
+        }
     }
 }
 
