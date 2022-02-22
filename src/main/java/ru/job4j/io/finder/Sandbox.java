@@ -8,10 +8,10 @@ import java.nio.file.Path;
 public class Sandbox {
 
     public static void main(String[] args) {
-        String[] parts = "*.txt".split("\\*");
-        for (String part: parts) {
-            System.out.println(part);
-        }
+        String one = "h*sbhfd?";
+        one = one.replace("*", "111");
+        one = one.replace("?", "222");
+        System.out.println(one);
     }
 }
 

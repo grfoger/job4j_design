@@ -39,8 +39,8 @@ public class ValidateFinder {
         if (arguments.get("d") == null || arguments.get("n") == null || arguments.get("t") == null || arguments.get("o") == null) {
             throw new IllegalArgumentException("Have not needed arguments.");
         }
-        if (!new File(arguments.get("d")).exists()) {
-            throw new IllegalArgumentException("File or folder is not exist. Please check your path.");
+        if (!new File(arguments.get("d")).exists() || !new File(arguments.get("d")).isDirectory()) {
+            throw new IllegalArgumentException("Folder is not exist. Please check your path.");
         }
         if (!"mask".equals(arguments.get("t")) && !"name".equals(arguments.get("t")) && !"regex".equals(arguments.get("t"))) {
             throw new IllegalArgumentException("Wrong type of search. Please choose \"mask\", or \"name\", or \"regex\".");

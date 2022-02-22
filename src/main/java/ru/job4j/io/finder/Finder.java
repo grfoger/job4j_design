@@ -5,38 +5,53 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Finder {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         ValidateFinder arguments = ValidateFinder.of(args);
-        Path root = Path.of(arguments.get("d"));
-        Predicate<Path> condition = null;
+        print(arguments);
+    }
 
-        if ("mask".equals(arguments.get("t"))) {
-            String[] forMask = arguments.get("n").split("\\*");
-            String findMask = null;
-            for (String mask: forMask) {
-                if (mask.length() != 0) {
-                    findMask = mask;
-                }
-            }
-            String finalFindMask = findMask;
-            condition = x -> x.getFileName().toString().contains(finalFindMask);
-        } else if ("name".equals(arguments.get("t"))) {
-            condition = x -> x.getFileName().toString().equals(arguments.get("n"));
-        } else if ("regex".equals(arguments.get("t"))) {
-            condition = x -> x.getFileName().toString().matches(arguments.get("n"));
-        }
-
-        SearchFinder searchFinder = new SearchFinder(condition);
-        Files.walkFileTree(root, searchFinder);
-        List<Path> paths = searchFinder.getPaths();
-        try (PrintWriter out = new PrintWriter(new FileWriter(arguments.get("o")));) {
-            for (Path path: paths) {
+    private static void print(ValidateFinder arguments) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(arguments.get("o")))) {
+            for (Path path: resultOfSearch(arguments)) {
                 out.println(path.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static List<Path> resultOfSearch(ValidateFinder arguments) throws IOException {
+        Path root = Path.of(arguments.get("d"));
+
+        SearchFinder searchFinder = new SearchFinder(typeOfSearch(arguments.get("t"), arguments.get("n")));
+        Files.walkFileTree(root, searchFinder);
+        return searchFinder.getPaths();
+    }
+
+    private static Predicate<Path> typeOfSearch(String argKey, String argValue) {
+        Predicate<Path> condition = null;
+        if ("mask".equals(argKey)) {
+            argValue = argValue.replace("*", ".*");
+            argValue = argValue.replace("?", ".");
+            Pattern pattern = Pattern.compile(argValue);
+            condition = x -> {
+                Matcher matcher = pattern.matcher(x.getFileName().toString());
+                return matcher.find();
+            };
+        } else if ("name".equals(argKey)) {
+            String finalArgValue = argValue;
+            condition = x -> x.getFileName().toString().equals(finalArgValue);
+        } else if ("regex".equals(argKey)) {
+            Pattern pattern = Pattern.compile(argValue);
+            condition = x -> {
+                Matcher matcher = pattern.matcher(x.getFileName().toString());
+                return matcher.find();
+            };
+        }
+        return condition;
     }
 }
