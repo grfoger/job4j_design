@@ -41,7 +41,9 @@ insert into product(name, type_id, expired_date, price) values ('Апельси�
 insert into product(name, type_id, expired_date, price) values ('Курица', 7, date '2022-03-01', 265.0);
 insert into product(name, type_id, expired_date, price) values ('Говядина', 7, date '2022-03-02', 639.9);
 
-select * from product where type_id = 1;
+select * from product
+join type on product.type_id = type.id
+where type.name like 'СЫР';
 
 select * from product where name like '%Мороженое%';
 
@@ -55,7 +57,9 @@ join type
 on p.type_id = type.id
 group by type.name;
 
-select * from product where type_id = 1 or type_id = 2;
+select * from product
+join type on product.type_id = type.id
+where type.name like 'СЫР' or type.name like 'МОЛОКО';
 
 select type.name as имя_типа, count(distinct p.name) as количество
 from product as p
