@@ -30,7 +30,7 @@ from character as ch
 join wearpon as w
 on ch.wearpon_id = w.id;
 
-select ch.name, w.name as wearpon
+select char.name, w.name as wearpon
 from character char
 join wearpon w
 on char.wearpon_id = w.id;
