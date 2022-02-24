@@ -24,3 +24,13 @@ select ch.name as Имя, ch.class as Класс, w.name as Оружие
 from character as ch
 join wearpon as w
 on ch.wearpon_id = w.id;
+
+select ch.name, ch.class, w.name as wearpon
+from character as ch
+join wearpon as w
+on ch.wearpon_id = w.id;
+
+select ch.name, w.name as wearpon
+from character char
+join wearpon w
+on char.wearpon_id = w.id;
