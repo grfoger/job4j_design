@@ -19,6 +19,7 @@ insert into character(name, class, wearpon_id) values ('Saruman', 'Warlock', 1);
 insert into character(name, class, wearpon_id) values ('Groo', 'Warrior', 2);
 insert into character(name, class, wearpon_id) values ('Grisha-Janitor', 'Paladin', 3);
 
+
 select ch.name as Имя, ch.class as Класс, w.name as Оружие
 from character as ch
 join wearpon as w
