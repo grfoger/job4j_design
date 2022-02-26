@@ -2,6 +2,10 @@ package ru.job4j.jdbc;
 
 import ru.job4j.io.Config;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -12,28 +16,43 @@ public class TableEditor implements AutoCloseable {
 
     private Properties properties;
 
-    public TableEditor(Properties properties) {
+    private Statement statement;
+
+    public TableEditor(Properties properties) throws Exception {
         this.properties = properties;
         initConnection();
     }
 
-    private void initConnection() {
-        Config conf = new Config("app.properties"); ///замена на properties!!!! "app.properties"
-        conf.load();
-        String url = conf.value("hibernate.connection.url");
-        String login = conf.value("hibernate.connection.username");
-        String password = conf.value("hibernate.connection.password");
-        try (Connection connect = DriverManager.getConnection(url, login, password)) {
-            connection = connect;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws Exception {
+        TableEditor table = new TableEditor(new Properties());
+        table.createTable("some_table");
+        System.out.println(getTableScheme(table.connection, "some_table"));
+        table.dropTable("some_table");
     }
 
-    public void createTable(String tableName) {
+    private void initConnection() throws Exception {
+        FileReader reader = new FileReader("app.properties");
+        properties.load(reader);
+        String url = properties.getProperty("hibernate.connection.url");
+        String login = properties.getProperty("hibernate.connection.username");
+        String password = properties.getProperty("hibernate.connection.password");
+        Connection connection = DriverManager.getConnection(url, login, password);
+        statement = connection.createStatement();
     }
 
-    public void dropTable(String tableName) {
+    public void createTable(String tableName) throws Exception {
+        String sql = String.format(
+                "create table if not exists " + tableName + "(id serial primary key);"
+        );
+        statement.execute(sql);
+
+    }
+
+    public void dropTable(String tableName) throws Exception {
+        String sql = String.format(
+                "drop table if exists " + tableName + ";"
+        );
+        statement.execute(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) {
