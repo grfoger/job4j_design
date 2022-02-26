@@ -16,9 +16,9 @@ create table transmission(
 create table car(
      id serial primary key,
      name varchar(255),
-     body_id int,
-     engine_id int,
-     tm_id int
+     body_id int references body(id),
+     engine_id int references engine(id),
+     tm_id int references transmission(id)
  );
 
 
@@ -37,22 +37,22 @@ insert into car(name, body_id, engine_id, tm_id) values ('ГАЗ-69 new', 2, 2, 
 
 select car.name, body.name, eng.name, tm.name
 from car
-full join body on car.body_id = body.id
-full join engine eng on car.engine_id = eng.id
-full join transmission tm on car.tm_id = tm.id
+left join body on car.body_id = body.id
+left join engine eng on car.engine_id = eng.id
+left join transmission tm on car.tm_id = tm.id
 where car.name is not null;
 
 select body.name as кузов
 from car
-full join body on car.body_id = body.id
+right join body on car.body_id = body.id
 where car.name is null;
 
 select engine.name as двигатель
 from car
-full join engine on car.engine_id = engine.id
+right join engine on car.engine_id = engine.id
 where car.name is null;
 
 select transmission.name as кузов
 from car
-full join transmission on car.tm_id = transmission.id
+right join transmission on car.tm_id = transmission.id
 where car.name is null;
