@@ -23,18 +23,20 @@ public class TableEditor implements AutoCloseable {
         initConnection();
     }
 
-    public static void main(String[] args) throws Exception {
-        TableEditor table = new TableEditor(new Properties());
-        table.dropTable("some_table");
-        table.createTable("some_table");
-        System.out.println(getTableScheme(table.connection, "some_table"));
-        table.addColumn("some_table", "name", "text");
-        System.out.println(getTableScheme(table.connection, "some_table"));
-        table.renameColumn("some_table", "name", "family");
-        System.out.println(getTableScheme(table.connection, "some_table"));
-        table.dropColumn("some_table", "family");
-        System.out.println(getTableScheme(table.connection, "some_table"));
-
+    public static void main(String[] args) {
+        try (TableEditor table = new TableEditor(new Properties())) {
+            table.dropTable("some_table");
+            table.createTable("some_table");
+            System.out.println(getTableScheme(table.connection, "some_table"));
+            table.addColumn("some_table", "name", "text");
+            System.out.println(getTableScheme(table.connection, "some_table"));
+            table.renameColumn("some_table", "name", "family");
+            System.out.println(getTableScheme(table.connection, "some_table"));
+            table.dropColumn("some_table", "family");
+            System.out.println(getTableScheme(table.connection, "some_table"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initConnection() throws Exception {
