@@ -47,7 +47,6 @@ public class TableEditor implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     private void initStat(String request) {
@@ -56,7 +55,6 @@ public class TableEditor implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public void createTable(String tableName) {
