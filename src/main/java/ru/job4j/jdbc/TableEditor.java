@@ -50,63 +50,43 @@ public class TableEditor implements AutoCloseable {
 
     }
 
-    private Statement initStatement() throws SQLException {
-        return connection.createStatement();
+    private void initStat(String request) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(request);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void createTable(String tableName) {
-        try (Statement stat = initStatement()) {
-            String sql = String.format(
-                    "create table if not exists " + tableName + "(id serial primary key);"
-            );
-            stat.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        initStat(String.format(
+                "create table if not exists " + tableName + "(id serial primary key);"
+        ));
     }
 
     public void dropTable(String tableName) {
-        try (Statement stat = initStatement()) {
-            String sql = String.format(
-                    "drop table if exists " + tableName + ";"
-            );
-            stat.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        initStat(String.format(
+                "drop table if exists " + tableName + ";"
+        ));
     }
 
     public void addColumn(String tableName, String columnName, String type) {
-        try (Statement stat = initStatement()) {
-            String sql = String.format(
-                    "alter table " + tableName + " add column " + columnName + " " + type + ";"
-            );
-            stat.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        initStat(String.format(
+                "alter table " + tableName + " add column " + columnName + " " + type + ";"
+        ));
     }
 
     public void dropColumn(String tableName, String columnName) {
-        try (Statement stat = initStatement()) {
-            String sql = String.format(
-                    "alter table " + tableName + " drop column " + columnName + ";"
-            );
-            stat.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        initStat(String.format(
+                "alter table " + tableName + " drop column " + columnName + ";"
+        ));
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) {
-        try (Statement stat = initStatement()) {
-            String sql = String.format(
-                    "alter table " + tableName + " rename column " + columnName + " to " + newColumnName + ";"
-            );
-            stat.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        initStat(String.format(
+                "alter table " + tableName + " rename column " + columnName + " to " + newColumnName + ";"
+        ));
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
