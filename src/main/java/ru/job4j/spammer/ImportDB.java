@@ -19,15 +19,25 @@ public class ImportDB {
         this.dump = dump;
     }
 
-    public List<User> load() throws IOException {
+    public List<User> load() {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach(x -> {
                 String[] spammer = x.split(";");
+                validate(spammer);
                 users.add(new User(spammer[0], spammer[1]));
             });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return users;
+    }
+
+
+    private void validate(String[] arguments) {
+        if (arguments.length != 2 || arguments[0].length() == 0 || arguments[1].length() == 0) {
+            throw new IllegalArgumentException("Wrong value of data.");
+        }
     }
 
     public void save(List<User> users) throws ClassNotFoundException, SQLException {
