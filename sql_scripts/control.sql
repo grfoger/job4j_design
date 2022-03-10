@@ -28,13 +28,11 @@ join company c
 on c.id = p.company_id
 where p.company_id != 5;
 
-select c.name, count(distinct p.name)
+select c.name, count(p.name)
 from person as p
 join company as c
 on p.company_id = c.id
 group by c.name
-having count(distinct p.name) >= all (
-select count(distinct p.name)from person as p
-join company as c
-on p.company_id = c.id
-group by c.name);
+having count(p.name) >= all (
+select count(p.name)from person as p
+group by p.company_id);
