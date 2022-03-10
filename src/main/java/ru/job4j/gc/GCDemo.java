@@ -25,7 +25,5 @@ public class GCDemo {
         }
         info();
         Thread.sleep(5000);
-
     }
-
 }
