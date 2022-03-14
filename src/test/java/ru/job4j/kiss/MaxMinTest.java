@@ -18,7 +18,7 @@ public class MaxMinTest {
             public int compare(Integer o1, Integer o2) {
                 return o1 - o2;
             }
-        } ;
+        };
         Assert.assertEquals(maxMin.max(list, comparator), list.get(3));
         Assert.assertEquals(maxMin.min(list, comparator), list.get(0));
     }
@@ -32,7 +32,7 @@ public class MaxMinTest {
             public int compare(String o1, String o2) {
                 return o1.length() - o2.length();
             }
-        } ;
+        };
         Assert.assertEquals(maxMin.max(list, comparator), list.get(1));
         Assert.assertEquals(maxMin.min(list, comparator), list.get(0));
     }
