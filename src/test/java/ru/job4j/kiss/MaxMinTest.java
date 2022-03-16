@@ -19,8 +19,8 @@ public class MaxMinTest {
                 return o1 - o2;
             }
         };
-        Assert.assertEquals(maxMin.max(list, comparator), list.get(3));
-        Assert.assertEquals(maxMin.min(list, comparator), list.get(0));
+        Assert.assertEquals(maxMin.max(list, comparator), Integer.valueOf(10));
+        Assert.assertEquals(maxMin.min(list, comparator), Integer.valueOf(1));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class MaxMinTest {
                 return o1.length() - o2.length();
             }
         };
-        Assert.assertEquals(maxMin.max(list, comparator), list.get(1));
-        Assert.assertEquals(maxMin.min(list, comparator), list.get(0));
+        Assert.assertEquals(maxMin.max(list, comparator), "крота");
+        Assert.assertEquals(maxMin.min(list, comparator), "у");
     }
 }
