@@ -65,7 +65,7 @@ public class ReportEngineTest {
         store.add(worker1);
         store.add(worker2);
         store.add(worker3);
-        store = (MemStore) sorter.sort(store, (x,y)-> (int)y.getSalary() - (int)x.getSalary());
+        store = (MemStore) sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         List<Employee> list = store.findBy(x -> true);
         assertEquals(list, Arrays.asList(worker2, worker1, worker3));
     }
@@ -118,7 +118,7 @@ public class ReportEngineTest {
         store.add(worker1);
         store.add(worker2);
         store.add(worker3);
-        store = (MemStore) sorter.sort(store, (x,y)-> (int)y.getSalary() - (int)x.getSalary());
+        store = (MemStore) sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Report engine = new ReportEngineSalary(store);
         String report = engine.generate(x -> true);
         output.outReport(report, target.toPath());
