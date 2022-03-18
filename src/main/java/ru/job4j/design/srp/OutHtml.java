@@ -4,9 +4,14 @@ import java.io.*;
 import java.nio.file.Path;
 
 public class OutHtml implements Output {
+    private String report;
+
+    public OutHtml(String report) {
+        this.report = report;
+    }
 
     @Override
-    public void outReport(String report, Path outPath) {
+    public void outReport(Path outPath) {
         File file = new File("src/main/java/ru/job4j/design/srp/template.html");
         File target = outPath.toFile();
         try (BufferedReader in = new BufferedReader(new FileReader(file));
@@ -29,5 +34,4 @@ public class OutHtml implements Output {
             e.printStackTrace();
         }
     }
-
 }

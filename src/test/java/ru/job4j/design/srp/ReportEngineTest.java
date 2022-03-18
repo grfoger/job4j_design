@@ -23,12 +23,13 @@ public class ReportEngineTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    @Ignore
+
     @Test
     public void whenGetOutHtml() throws Exception {
         MemStore store = new MemStore();
-        Calendar now = Calendar.getInstance();
-        Employee worker = new Employee("Ivan", now, now, 100);
+        Calendar day = Calendar.getInstance();
+        day.set(2022, 2, 17);
+        Employee worker = new Employee("Ivan", day , day, 100);
         store.add(worker);
         Report engine = new ReportEngine(store);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,8 +42,8 @@ public class ReportEngineTest {
                 .append(worker.getSalary()).append(";");
 
         File target = temporaryFolder.newFile("report.html");
-        Output output = new OutHtml();
-        output.outReport(report.toString(), target.toPath());
+        Output output = new OutHtml(report.toString());
+        output.outReport(target.toPath());
         File expected = new File("src/test/java/ru/job4j/design/srp/expected.html");
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
@@ -103,7 +104,6 @@ public class ReportEngineTest {
                 .append(dateFormat.format(worker.getHired().getTime())).append(";")
                 .append(dateFormat.format(worker.getFired().getTime())).append(";")
                 .append(worker.getSalary()).append(";");
-        System.out.println(expect);
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
@@ -113,7 +113,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Sort sorter = new SortEmployee();
         File target = temporaryFolder.newFile("report.html");
-        Output output = new OutHtml();
+
         Employee worker1 = new Employee("Ivan", now, now, 100);
         Employee worker2 = new Employee("Stepan", now, now, 120);
         Employee worker3 = new Employee("Padavan", now, now, 90);
@@ -123,7 +123,8 @@ public class ReportEngineTest {
         store = (MemStore) sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Report engine = new ReportEngineSalary(store);
         String report = engine.generate(x -> true);
-        output.outReport(report, target.toPath());
+        Output output = new OutHtml(report);
+        output.outReport(target.toPath());
         File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.html");
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
