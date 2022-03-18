@@ -47,6 +47,34 @@ public class CinemaTest {
     }
 
     @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongSeat() {
+        Session session = new Session3D();
+        session.setBusy(100500, 987);
+    }
+
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenAlreadyBusy() {
+        Session session = new Session3D();
+        session.setBusy(2, 3);
+        session.setBusy(2, 3);
+    }
+
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongDate() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date1 = Calendar.getInstance();
+        date1.set(1920, 10, 10, 23, 00);
+        Calendar date2 = Calendar.getInstance();
+        date2.set(2120, 10, 10, 23, 00);
+        Ticket ticket1 = cinema.buy(account, 1, 1, date1);
+        Ticket ticket2 = cinema.buy(account, 1, 1, date2);
+    }
+
+    @Ignore
     @Test
     public void whenRegister() {
         Cinema cinema = new Cinema3D();
