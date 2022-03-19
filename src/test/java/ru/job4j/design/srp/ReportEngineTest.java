@@ -31,7 +31,7 @@ public class ReportEngineTest {
         MemStore store = new MemStore();
         Calendar day = Calendar.getInstance();
         day.set(2022, 2, 17);
-        Employee worker = new Employee("Ivan", day , day, 100);
+        Employee worker = new Employee("Ivan", day, day, 100);
         store.add(worker);
         Report engine = new ReportEngine(store);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -134,7 +134,7 @@ public class ReportEngineTest {
     @Test
     public void whenOutXml() throws IOException {
         Store store = new MemStore();
-        Calendar day = new GregorianCalendar(2022,2, 17, 0, 0);
+        Calendar day = new GregorianCalendar(2022, 2, 17, 0, 0);
         Sort sorter = new SortEmployee();
         File target = temporaryFolder.newFile("report.xml");
         Employee worker1 = new Employee("Ivan", day, day, 100);
