@@ -1,9 +1,11 @@
 package ru.job4j.design.srp;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Employee {
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private Calendar hired;
     private Calendar fired;

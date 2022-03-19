@@ -12,10 +12,12 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ReportEngineTest {
@@ -126,6 +128,44 @@ public class ReportEngineTest {
         Output output = new OutHtml(report);
         output.outReport(target.toPath());
         File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.html");
+        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+    }
+
+    @Test
+    public void whenOutXml() throws IOException {
+        Store store = new MemStore();
+        Calendar day = new GregorianCalendar(2022, 2, 17, 0 ,0);
+        Sort sorter = new SortEmployee();
+        File target = temporaryFolder.newFile("report.xml");
+        Employee worker1 = new Employee("Ivan", day, day, 100);
+        Employee worker2 = new Employee("Stepan", day, day, 120);
+        Employee worker3 = new Employee("Padavan", day, day, 90);
+        store.add(worker1);
+        store.add(worker2);
+        store.add(worker3);
+        store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
+        Output output = new OutXml(store.findBy(x -> true));
+        output.outReport(target.toPath());
+        File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.xml");
+        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+    }
+
+    @Test
+    public void whenOutJson() throws IOException {
+        Store store = new MemStore();
+        Calendar day = new GregorianCalendar(2022, 2, 17, 0 ,0);
+        Sort sorter = new SortEmployee();
+        File target = temporaryFolder.newFile("report.xml");
+        Employee worker1 = new Employee("Ivan", day, day, 100);
+        Employee worker2 = new Employee("Stepan", day, day, 120);
+        Employee worker3 = new Employee("Padavan", day, day, 90);
+        store.add(worker1);
+        store.add(worker2);
+        store.add(worker3);
+        store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
+        Output output = new OutJson(store.findBy(x -> true));
+        output.outReport(target.toPath());
+        File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.json");
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
