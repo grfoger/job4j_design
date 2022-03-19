@@ -131,6 +131,7 @@ public class ReportEngineTest {
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
+    @Ignore
     @Test
     public void whenOutXml() throws IOException {
         Store store = new MemStore();
