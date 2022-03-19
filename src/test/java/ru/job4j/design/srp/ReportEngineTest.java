@@ -134,7 +134,7 @@ public class ReportEngineTest {
     @Test
     public void whenOutXml() throws IOException {
         Store store = new MemStore();
-        Calendar day = new GregorianCalendar(2022, 2, 17, 0 ,0);
+        Calendar day = new GregorianCalendar(2022, 2, 17, 0 , 0);
         Sort sorter = new SortEmployee();
         File target = temporaryFolder.newFile("report.xml");
         Employee worker1 = new Employee("Ivan", day, day, 100);
@@ -153,7 +153,7 @@ public class ReportEngineTest {
     @Test
     public void whenOutJson() throws IOException {
         Store store = new MemStore();
-        Calendar day = new GregorianCalendar(2022, 2, 17, 0 ,0);
+        Calendar day = new GregorianCalendar(2022, 2, 17, 0 , 0);
         Sort sorter = new SortEmployee();
         File target = temporaryFolder.newFile("report.xml");
         Employee worker1 = new Employee("Ivan", day, day, 100);
