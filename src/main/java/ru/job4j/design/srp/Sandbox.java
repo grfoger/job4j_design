@@ -23,7 +23,5 @@ public class Sandbox {
         output1.outReport(Path.of("report.xml"));
         output2.outReport(Path.of("report.json"));
     }
-
-
 }
 
