@@ -25,7 +25,6 @@ public class ReportEngineTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-
     @Test
     public void whenGetOutHtml() throws Exception {
         MemStore store = new MemStore();
@@ -42,11 +41,10 @@ public class ReportEngineTest {
                 .append(dateFormat.format(worker.getHired().getTime())).append(";")
                 .append(dateFormat.format(worker.getFired().getTime())).append(";")
                 .append(worker.getSalary()).append(";");
-
         File target = temporaryFolder.newFile("report.html");
         Output output = new OutHtml(report.toString());
         output.outReport(target.toPath());
-        File expected = new File("src/test/java/ru/job4j/design/srp/expected.html");
+        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expected.html").getPath());
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
@@ -127,11 +125,11 @@ public class ReportEngineTest {
         String report = engine.generate(x -> true);
         Output output = new OutHtml(report);
         output.outReport(target.toPath());
-        File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.html");
+        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.html").getPath());
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
-    @Ignore
+
     @Test
     public void whenOutXml() throws IOException {
         Store store = new MemStore();
@@ -147,7 +145,7 @@ public class ReportEngineTest {
         store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Output output = new OutXml(store.findBy(x -> true));
         output.outReport(target.toPath());
-        File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.xml");
+        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.xml").getPath());
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
@@ -166,7 +164,7 @@ public class ReportEngineTest {
         store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Output output = new OutJson(store.findBy(x -> true));
         output.outReport(target.toPath());
-        File expected = new File("src/test/java/ru/job4j/design/srp/expectedNew.json");
+        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.json").getPath());
         Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
     }
 
