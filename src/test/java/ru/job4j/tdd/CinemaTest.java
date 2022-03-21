@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CinemaTest {
@@ -49,16 +50,20 @@ public class CinemaTest {
     @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void whenWrongSeat() {
-        Session session = new Session3D();
-        session.setBusy(100500, 987);
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = new GregorianCalendar(2022, 2, 17, 22, 0);
+        Ticket ticket = cinema.buy(account, 100500, 9000, date);
     }
 
     @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void whenAlreadyBusy() {
-        Session session = new Session3D();
-        session.setBusy(2, 3);
-        session.setBusy(2, 3);
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = new GregorianCalendar(2022, 2, 17, 22, 0);
+        Ticket ticket1 = cinema.buy(account, 1, 1, date);
+        Ticket ticket2 = cinema.buy(account, 1, 1, date);
     }
 
     @Ignore
@@ -71,7 +76,7 @@ public class CinemaTest {
         Calendar date2 = Calendar.getInstance();
         date2.set(2120, 10, 10, 23, 00);
         Ticket ticket1 = cinema.buy(account, 1, 1, date1);
-        Ticket ticket2 = cinema.buy(account, 1, 1, date2);
+        Ticket ticket2 = cinema.buy(account, 1, 2, date2);
     }
 
     @Ignore
