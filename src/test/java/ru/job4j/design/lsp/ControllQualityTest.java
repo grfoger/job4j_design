@@ -19,7 +19,7 @@ public class ControllQualityTest {
         Food milk = new Food("молоко",
                 java.sql.Date.valueOf(LocalDate.now().plusDays(10)),
                 java.sql.Date.valueOf(LocalDate.now().minusDays(1)),
-                100.0f, 10 );
+                100.0f, 10);
         ControllQuality cq = new ControlQualityFood(null);
         cq.checkFood(milk);
         FoodStore foodStore = cq.getFoodStore();
@@ -32,7 +32,7 @@ public class ControllQualityTest {
         Food milk = new Food("молоко",
                 java.sql.Date.valueOf(LocalDate.now().plusDays(5)),
                 java.sql.Date.valueOf(LocalDate.now().minusDays(5)),
-                100.0f, 10 );
+                100.0f, 10);
         ControllQuality cq = new ControlQualityFood(null);
         cq.checkFood(milk);
         FoodStore foodStore = cq.getFoodStore();
@@ -46,7 +46,7 @@ public class ControllQualityTest {
         Food milk = new Food("молоко",
                 java.sql.Date.valueOf(LocalDate.now().plusDays(1)),
                 java.sql.Date.valueOf(LocalDate.now().minusDays(10)),
-                100.0f, 10 );
+                100.0f, 10);
         ControllQuality cq = new ControlQualityFood(null);
         cq.checkFood(milk);
         FoodStore foodStore = cq.getFoodStore();
@@ -60,7 +60,7 @@ public class ControllQualityTest {
         Food milk = new Food("молоко",
                 java.sql.Date.valueOf(LocalDate.now().minusDays(1)),
                 java.sql.Date.valueOf(LocalDate.now().minusDays(10)),
-                100.0f, 10 );
+                100.0f, 10);
         ControllQuality cq = new ControlQualityFood(null);
         cq.checkFood(milk);
         FoodStore foodStore = cq.getFoodStore();
