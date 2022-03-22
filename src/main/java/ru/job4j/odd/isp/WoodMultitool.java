@@ -3,6 +3,7 @@ package ru.job4j.odd.isp;
 public interface WoodMultitool {
     void saw();
     void unscrew();
+
     /**
      * 3. Пила с отвёрткой? Серьёзно?
      * Если только пилу использовать как плечо при закручивании, а отвёртку как ручку пилы.
