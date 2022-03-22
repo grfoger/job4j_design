@@ -14,6 +14,10 @@ public class ControlQualityFood implements ControllQuality {
         this.foodStore = foodStore;
     }
 
+    public FoodStore getFoodStore() {
+        return foodStore;
+    }
+
     public void checkFood(Food food) {
         validate(food);
         foodStore.add(food);
@@ -23,7 +27,16 @@ public class ControlQualityFood implements ControllQuality {
         long foodLife = food.getExpiryDate().getTime() - food.getCreateDate().getTime();
         long now = new Date().getTime();
         int condition = (int) ((now - food.getCreateDate().getTime()) * 100 / foodLife);
-        //if ()
+        if (condition <= 25) {
+            foodStore = new Warehouse();
+        } else if (condition <= 75) {
+            foodStore = new Shop();
+        } else if (condition <= 100) {
+            food.setPrice(food.getPrice() * (1 - (float) food.getDiscount() / 100));
+            foodStore = new Shop();
+        } else {
+            foodStore = new Trash();
+        }
     }
 
 }
