@@ -7,11 +7,12 @@ public class Shop implements FoodStore {
 
     private List<Food> list = new ArrayList<>();
 
-    public void add(Food food) {
+    public boolean add(Food food) {
         list.add(food);
+        return true;
     }
 
     public List<Food> getFoodList() {
-        return list;
+        return List.copyOf(list);
     }
 }
