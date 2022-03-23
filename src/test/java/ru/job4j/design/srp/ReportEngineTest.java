@@ -3,6 +3,7 @@ package ru.job4j.design.srp;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+import jdk.jfr.Name;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -11,14 +12,13 @@ import org.junit.rules.TemporaryFolder;
 
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.time.ZoneOffset;
+import java.util.*;
 
 public class ReportEngineTest {
 
@@ -32,7 +32,6 @@ public class ReportEngineTest {
         day.set(2022, 2, 17);
         Employee worker = new Employee("Ivan", day, day, 100);
         store.add(worker);
-        Report engine = new ReportEngine(store);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         StringBuilder report = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
@@ -43,9 +42,19 @@ public class ReportEngineTest {
                 .append(worker.getSalary()).append(";");
         File target = temporaryFolder.newFile("report.html");
         Output output = new OutHtml(report.toString());
-        output.outReport(target.toPath());
-        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expected.html").getPath());
-        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+        String newReport = output.outReport(target.toPath());
+        StringBuilder expected = new StringBuilder()
+                .append("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"").append(System.lineSeparator())
+                .append("        \"http://www.w3.org/TR/html4/loose.dtd\">").append(System.lineSeparator())
+                .append("<html>").append(System.lineSeparator())
+                .append("<head>").append(System.lineSeparator())
+                .append("    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">").append(System.lineSeparator())
+                .append("    <title>Отчёт</title>").append(System.lineSeparator())
+                .append("</head>").append(System.lineSeparator())
+                .append("    <body>Name; Hired; Fired; Salary;<br />").append(System.lineSeparator())
+                .append("    Ivan;2022-03-17;2022-03-17;100.0;</body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
+        Assert.assertEquals(expected.toString(), newReport);
     }
 
     @Test
@@ -107,6 +116,7 @@ public class ReportEngineTest {
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
+    @Name("исправить")
     @Test
     public void whenNewGenerated() throws IOException {
         MemStore store = new MemStore();
@@ -124,16 +134,28 @@ public class ReportEngineTest {
         Report engine = new ReportEngineSalary(store);
         String report = engine.generate(x -> true);
         Output output = new OutHtml(report);
-        output.outReport(target.toPath());
-        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.html").getPath());
-        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+        String newReport = output.outReport(target.toPath());
+        StringBuilder expected = new StringBuilder()
+                .append("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"").append(System.lineSeparator())
+                .append("        \"http://www.w3.org/TR/html4/loose.dtd\">").append(System.lineSeparator())
+                .append("<html>").append(System.lineSeparator())
+                .append("<head>").append(System.lineSeparator())
+                .append("    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">").append(System.lineSeparator())
+                .append("    <title>Отчёт</title>").append(System.lineSeparator())
+                .append("</head>").append(System.lineSeparator())
+                .append("    <body>Name; Salary;<br />").append(System.lineSeparator())
+                .append("    Stepan;120.0;<br />").append(System.lineSeparator())
+                .append("    Ivan;100.0;<br />").append(System.lineSeparator())
+                .append("    Padavan;90.0;</body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
+        Assert.assertEquals(expected.toString(), newReport);
     }
 
-    @Ignore
     @Test
     public void whenOutXml() throws IOException {
         Store store = new MemStore();
         Calendar day = new GregorianCalendar(2022, 2, 17, 0, 0);
+        day.setTimeZone(TimeZone.getTimeZone(ZoneOffset.of("+3")));
         Sort sorter = new SortEmployee();
         File target = temporaryFolder.newFile("report.xml");
         Employee worker1 = new Employee("Ivan", day, day, 100);
@@ -144,9 +166,30 @@ public class ReportEngineTest {
         store.add(worker3);
         store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Output output = new OutXml(store.findBy(x -> true));
-        output.outReport(target.toPath());
-        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.xml").getPath());
-        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+        String newReport = output.outReport(target.toPath());
+        StringBuilder expected = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>").append("\n")
+                .append("<employees>").append("\n")
+                .append("    <employees>").append("\n")
+                .append("        <fired>2022-03-17T00:00:00+03:00</fired>").append("\n")
+                .append("        <hired>2022-03-17T00:00:00+03:00</hired>").append("\n")
+                .append("        <name>Stepan</name>").append("\n")
+                .append("        <salary>120.0</salary>").append("\n")
+                .append("    </employees>").append("\n")
+                .append("    <employees>").append("\n")
+                .append("        <fired>2022-03-17T00:00:00+03:00</fired>").append("\n")
+                .append("        <hired>2022-03-17T00:00:00+03:00</hired>").append("\n")
+                .append("        <name>Ivan</name>").append("\n")
+                .append("        <salary>100.0</salary>").append("\n")
+                .append("    </employees>").append("\n")
+                .append("    <employees>").append("\n")
+                .append("        <fired>2022-03-17T00:00:00+03:00</fired>").append("\n")
+                .append("        <hired>2022-03-17T00:00:00+03:00</hired>").append("\n")
+                .append("        <name>Padavan</name>").append("\n")
+                .append("        <salary>90.0</salary>").append("\n")
+                .append("    </employees>").append("\n")
+                .append("</employees>").append("\n");
+        Assert.assertEquals(expected.toString(), newReport);
     }
 
     @Test
@@ -163,9 +206,23 @@ public class ReportEngineTest {
         store.add(worker3);
         store = sorter.sort(store, (x, y) -> (int) y.getSalary() - (int) x.getSalary());
         Output output = new OutJson(store.findBy(x -> true));
-        output.outReport(target.toPath());
-        File expected = new File(ReportEngineTest.class.getClassLoader().getResource("expectedNew.json").getPath());
-        Assert.assertEquals(Files.readString(expected.toPath()), Files.readString(target.toPath()));
+        String newReport = output.outReport(target.toPath());
+        StringBuilder expected = new StringBuilder()
+                .append("[")
+                .append("{\"name\":\"Stepan\",")
+                .append("\"hired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"fired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"salary\":120.0},")
+                .append("{\"name\":\"Ivan\",")
+                .append("\"hired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"fired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"salary\":100.0},")
+                .append("{\"name\":\"Padavan\",")
+                .append("\"hired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"fired\":{\"year\":2022,\"month\":2,\"dayOfMonth\":17,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                .append("\"salary\":90.0}")
+                .append("]");
+        Assert.assertEquals(expected.toString(), newReport);
     }
 
 }

@@ -18,7 +18,7 @@ public class OutJson implements Output {
         this.list = list;
     }
 
-    public void outReport(Path outPath) {
+    public String outReport(Path outPath) {
         final Gson gson = new GsonBuilder().create();
         String newReport = gson.toJson(list);
         try (PrintWriter out = new PrintWriter(new FileWriter(outPath.toFile()))) {
@@ -26,5 +26,6 @@ public class OutJson implements Output {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return newReport;
     }
 }

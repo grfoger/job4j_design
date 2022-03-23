@@ -18,12 +18,13 @@ public class OutXml implements Output {
         this.list = list;
     }
 
-    public void outReport(Path outPath) {
+    public String outReport(Path outPath) {
+        String newReport = "";
         try {
             JAXBContext context = JAXBContext.newInstance(Employees.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            String newReport = "";
+
             try (StringWriter writer = new StringWriter();
                  PrintWriter out = new PrintWriter(new FileWriter(outPath.toFile()))) {
                 marshaller.marshal(new Employees(list), writer);
@@ -35,5 +36,6 @@ public class OutXml implements Output {
         }   catch (JAXBException j) {
             j.printStackTrace();
         }
+        return newReport;
     }
 }

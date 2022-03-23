@@ -11,7 +11,8 @@ public class OutHtml implements Output {
     }
 
     @Override
-    public void outReport(Path outPath) {
+    public String outReport(Path outPath) {
+        StringBuilder expect = new StringBuilder();
         File file = new File("src/main/java/ru/job4j/design/srp/template.html");
         File target = outPath.toFile();
         try (BufferedReader in = new BufferedReader(new FileReader(file));
@@ -29,9 +30,11 @@ public class OutHtml implements Output {
                     line = line.replace(System.lineSeparator(), "<br />" + System.lineSeparator() + "    ");
                 }
                 out.println(line);
+                expect.append(line).append(System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return expect.toString();
     }
 }
