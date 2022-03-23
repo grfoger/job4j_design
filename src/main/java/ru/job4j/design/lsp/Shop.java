@@ -25,7 +25,7 @@ public class Shop implements FoodStore {
 
     public boolean accept(Food food) {
         boolean isValid = false;
-        if (getCondition(food) <= 100) {
+        if (getCondition(food) <= 100 && getCondition(food) > 25) {
             isValid = true;
         }
         return isValid;

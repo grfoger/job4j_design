@@ -16,11 +16,12 @@ public class ControlQualityFood implements ControlQuality {
     }
 
     public void checkFood(Food food) {
-        stores.forEach(s -> {
-            if (s.accept(food)) {
-                s.add(food);
+        for (FoodStore fs : stores) {
+            if (fs.accept(food)) {
+                fs.add(food);
+                break;
             }
-        });
+        }
     }
 
     public List<FoodStore> getStores() {

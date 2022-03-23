@@ -56,4 +56,32 @@ public class ControlQualityTest {
         cq.checkFood(milk);
         Assert.assertEquals(cq.getStores().get(2).getFoodList(), Arrays.asList(milk));
     }
+
+    @Test
+    public void whenCheckDifferentProducts() {
+        Food milk = new Food("молоко",
+                java.sql.Date.valueOf(LocalDate.now().minusDays(1)),
+                java.sql.Date.valueOf(LocalDate.now().minusDays(10)),
+                100.0f, 10);
+        Food bread = new Food("хлеб",
+                java.sql.Date.valueOf(LocalDate.now().plusDays(1)),
+                java.sql.Date.valueOf(LocalDate.now().minusDays(10)),
+                100.0f, 10);
+        Food eggs = new Food("яйца",
+                java.sql.Date.valueOf(LocalDate.now().plusDays(10)),
+                java.sql.Date.valueOf(LocalDate.now().minusDays(10)),
+                100.0f, 10);
+        Food butter = new Food("масло",
+                java.sql.Date.valueOf(LocalDate.now().plusDays(10)),
+                java.sql.Date.valueOf(LocalDate.now().minusDays(1)),
+                100.0f, 10);
+        ControlQualityFood cq = new ControlQualityFood();
+        cq.checkFood(milk);
+        cq.checkFood(bread);
+        cq.checkFood(eggs);
+        cq.checkFood(butter);
+        Assert.assertEquals(cq.getStores().get(0).getFoodList(), Arrays.asList(bread, eggs));
+        Assert.assertEquals(cq.getStores().get(1).getFoodList(), Arrays.asList(butter));
+        Assert.assertEquals(cq.getStores().get(2).getFoodList(), Arrays.asList(milk));
+    }
 }
