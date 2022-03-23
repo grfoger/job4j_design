@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class ParkingTest {
 
-    @Ignore
+
     @Test
     public void whenRightParkFirstLight() {
         Parking park = new SimpleParking(2, 5);
@@ -20,7 +20,7 @@ public class ParkingTest {
         Assert.assertFalse(park.put(new Truck(2)));
     }
 
-    @Ignore
+
     @Test
     public void whenRightParkFirstTruck() {
         Parking park = new SimpleParking(2, 5);
@@ -33,7 +33,7 @@ public class ParkingTest {
         Assert.assertFalse(park.put(new Truck(2)));
     }
 
-    @Ignore
+
     @Test
     public void whenMoreTrucksAndItsRight() {
         Parking park = new SimpleParking(1, 5);
@@ -45,7 +45,7 @@ public class ParkingTest {
         Assert.assertFalse(park.put(new Truck(2)));
     }
 
-    @Ignore
+
     @Test
     public void whenOnlyTrucks() {
         Parking park = new SimpleParking(1, 5);
@@ -56,7 +56,7 @@ public class ParkingTest {
         Assert.assertFalse(park.put(new LightCar()));
     }
 
-    @Ignore
+
     @Test
     public void whenTrucksPark() {
         Parking park = new SimpleParking(4, 0);
@@ -69,7 +69,7 @@ public class ParkingTest {
         Assert.assertFalse(park.put(new LightCar()));
     }
 
-    @Ignore
+
     @Test
     public void whenLightCarsPark() {
         Parking park = new SimpleParking(0, 5);
