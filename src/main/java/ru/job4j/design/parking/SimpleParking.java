@@ -2,13 +2,15 @@ package ru.job4j.design.parking;
 
 public class SimpleParking implements Parking {
 
-    private Car[] trucks;
+    private int truckPlace;
+    private int carPlace;
 
-    private Car[] lightCars;
+    private Car[] trucks = new Car[truckPlace];
+    private Car[] lightCars = new Car[carPlace];
 
     public SimpleParking(int truckPlace, int carPlace) {
-        trucks = new Car[truckPlace];
-        lightCars = new Car[carPlace];
+        this.truckPlace = truckPlace;
+        this.carPlace = carPlace;
     }
 
     @Override

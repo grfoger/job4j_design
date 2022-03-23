@@ -1,73 +1,83 @@
 package ru.job4j.design.parking;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 public class ParkingTest {
 
+    @Ignore
     @Test
-    public void whenRightPark() {
-        Parking park = new SimpleParking(5, 10);
+    public void whenRightParkFirstLight() {
+        Parking park = new SimpleParking(2, 5);
         for (int i = 0; i < 5; i++) {
-            park.put(new Truck(3));
+            Assert.assertTrue(park.put(new LightCar()));
         }
-        for (int i = 0; i < 10; i++) {
-            park.put(new LightCar());
-        }
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new Truck(30)));
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new Truck(2)));
     }
 
+    @Ignore
+    @Test
+    public void whenRightParkFirstTruck() {
+        Parking park = new SimpleParking(2, 5);
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new Truck(30)));
+        for (int i = 0; i < 5; i++) {
+            Assert.assertTrue(park.put(new LightCar()));
+        }
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new Truck(2)));
+    }
 
+    @Ignore
     @Test
     public void whenMoreTrucksAndItsRight() {
-        Parking park = new SimpleParking(5, 10);
-        for (int i = 0; i < 7; i++) {
-            park.put(new Truck(3));
-        }
-        for (int i = 0; i < 4; i++) {
-            park.put(new LightCar());
-        }
+        Parking park = new SimpleParking(1, 5);
+        Assert.assertTrue(park.put(new Truck(5)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new Truck(2)));
     }
 
     @Ignore
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void whenMoreTrucksAndItsWrong() {
-        Parking park = new SimpleParking(5, 10);
-        for (int i = 0; i < 7; i++) {
-            park.put(new Truck(3));
-        }
-        for (int i = 0; i < 5; i++) {
-            park.put(new LightCar());
-        }
+    @Test
+    public void whenOnlyTrucks() {
+        Parking park = new SimpleParking(1, 5);
+        Assert.assertTrue(park.put(new Truck(5)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new Truck(3)));
+        Assert.assertFalse(park.put(new Truck(2)));
+        Assert.assertFalse(park.put(new LightCar()));
     }
 
     @Ignore
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void whenMoreLightCarsAndItsWrong() {
-        Parking park = new SimpleParking(5, 10);
-        for (int i = 0; i < 3; i++) {
-            park.put(new Truck(3));
-        }
-        for (int i = 0; i < 11; i++) {
-            park.put(new LightCar());
-        }
+    @Test
+    public void whenTrucksPark() {
+        Parking park = new SimpleParking(4, 0);
+        Assert.assertTrue(park.put(new Truck(5)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertTrue(park.put(new Truck(3)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertFalse(park.put(new Truck(2)));
+        Assert.assertFalse(park.put(new LightCar()));
     }
 
     @Ignore
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void whenOnlyLightCarsAndItsWrong() {
-        Parking park = new SimpleParking(5, 10);
-        for (int i = 0; i < 11; i++) {
-            park.put(new LightCar());
-        }
-    }
+    @Test
+    public void whenLightCarsPark() {
+        Parking park = new SimpleParking(0, 5);
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new Truck(2)));
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new Truck(2)));
 
-    @Ignore
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void whenOnlyTrucksAndItsWrong() {
-        Parking park = new SimpleParking(5, 10);
-        for (int i = 0; i < 9; i++) {
-            park.put(new Truck(3));
-        }
     }
 }
