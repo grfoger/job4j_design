@@ -1,42 +1,29 @@
 package ru.job4j.design.lsp;
 
-import java.util.Date;
 
-public class ControlQualityFood implements ControllQuality {
 
-    FoodStore foodStore;
+import java.util.ArrayList;
+import java.util.List;
 
-    public ControlQualityFood(FoodStore foodStore) {
-        this.foodStore = foodStore;
-    }
+public class ControlQualityFood implements ControlQuality {
 
-    public void setFoodStore(FoodStore foodStore) {
-        this.foodStore = foodStore;
-    }
+    private List<FoodStore> stores = new ArrayList<>();
 
-    public FoodStore getFoodStore() {
-        return foodStore;
+    public ControlQualityFood() {
+        stores.add(new Shop());
+        stores.add(new Warehouse());
+        stores.add(new Trash());
     }
 
     public void checkFood(Food food) {
-        validate(food);
-        foodStore.add(food);
+        stores.forEach(s -> {
+            if (s.accept(food)) {
+                s.add(food);
+            }
+        });
     }
 
-    private void validate(Food food) {
-        long foodLife = food.getExpiryDate().getTime() - food.getCreateDate().getTime();
-        long now = new Date().getTime();
-        int condition = (int) ((now - food.getCreateDate().getTime()) * 100 / foodLife);
-        if (condition <= 25) {
-            foodStore = new Warehouse();
-        } else if (condition <= 75) {
-            foodStore = new Shop();
-        } else if (condition <= 100) {
-            food.setPrice(food.getPrice() * (1 - (float) food.getDiscount() / 100));
-            foodStore = new Shop();
-        } else {
-            foodStore = new Trash();
-        }
+    public List<FoodStore> getStores() {
+        return List.copyOf(stores);
     }
-
 }
