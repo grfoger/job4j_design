@@ -27,4 +27,18 @@ public class ControlQualityFood implements ControlQuality {
     public List<FoodStore> getStores() {
         return List.copyOf(stores);
     }
+
+    public boolean resort() {
+        boolean isResort = false;
+        List<Food> foods = new ArrayList<>();
+        for (FoodStore fs:stores) {
+            isResort = foods.addAll(fs.getFoodList());
+        }
+        stores.clear();
+        stores.add(new Shop());
+        stores.add(new Warehouse());
+        stores.add(new Trash());
+        foods.forEach(this::checkFood);
+        return isResort;
+    }
 }
