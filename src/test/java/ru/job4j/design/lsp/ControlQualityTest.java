@@ -109,7 +109,7 @@ public class ControlQualityTest {
         cq.checkFood(bread);
         cq.checkFood(eggs);
         cq.checkFood(butter);
-        assertTrue( cq.resort());
+        assertTrue(cq.resort());
         Assert.assertEquals(cq.getStores().get(0).getFoodList(), Arrays.asList(bread, eggs));
         Assert.assertEquals(cq.getStores().get(1).getFoodList(), Arrays.asList(butter));
         Assert.assertEquals(cq.getStores().get(2).getFoodList(), Arrays.asList(milk));
