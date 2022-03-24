@@ -22,11 +22,11 @@ public class SimpleParking implements Parking {
            lightCars[carPlace - 1] = car;
             carPlace--;
             isPut = true;
-        } else if(car.getSize() > 1 && truckPlace > 0) {
+        } else if (car.getSize() > 1 && truckPlace > 0) {
            trucks[truckPlace - 1] = car;
            truckPlace--;
            isPut = true;
-        } else if(car.getSize() > 1 && truckPlace == 0 && carPlace >= car.getSize()) {
+        } else if (car.getSize() > 1 && truckPlace == 0 && carPlace >= car.getSize()) {
             lightCars[carPlace - 1] = car;
             carPlace -= car.getSize();
             isPut = true;
