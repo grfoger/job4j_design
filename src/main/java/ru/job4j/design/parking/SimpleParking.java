@@ -11,23 +11,23 @@ public class SimpleParking implements Parking {
     public SimpleParking(int truckPlace, int carPlace) {
         this.truckPlace = truckPlace;
         this.carPlace = carPlace;
-        trucks = new Car[truckPlace+1];
-        lightCars = new Car[carPlace+1];
+        trucks = new Car[truckPlace];
+        lightCars = new Car[carPlace];
     }
 
     @Override
     public boolean put(Car car) {
         boolean isPut = false;
         if (car.getSize() == 1 && carPlace > 0) {
-           lightCars[carPlace] = car;
+           lightCars[carPlace - 1] = car;
             carPlace--;
             isPut = true;
         } else if(car.getSize() > 1 && truckPlace > 0) {
-           trucks[truckPlace] = car;
+           trucks[truckPlace - 1] = car;
            truckPlace--;
            isPut = true;
-        } else if(car.getSize() > 1 && truckPlace > 0 && carPlace >= car.getSize()) {
-            lightCars[carPlace] = car;
+        } else if(car.getSize() > 1 && truckPlace == 0 && carPlace >= car.getSize()) {
+            lightCars[carPlace - 1] = car;
             carPlace -= car.getSize();
             isPut = true;
         }

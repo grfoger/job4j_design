@@ -78,6 +78,16 @@ public class ParkingTest {
         Assert.assertTrue(park.put(new LightCar()));
         Assert.assertFalse(park.put(new LightCar()));
         Assert.assertFalse(park.put(new Truck(2)));
+    }
 
+    @Test
+    public void whenOnlyLightCars() {
+        Parking park = new SimpleParking(0, 4);
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertTrue(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new LightCar()));
+        Assert.assertFalse(park.put(new Truck(2)));
     }
 }
