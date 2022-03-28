@@ -8,6 +8,7 @@ public interface FoodStore {
     boolean add(Food food);
     List<Food> getFoodList();
     boolean accept(Food food);
+    boolean cleanStore();
     default int getCondition(Food food) {
         long foodLife = food.getExpiryDate().getTime() - food.getCreateDate().getTime();
         long now = new Date().getTime();

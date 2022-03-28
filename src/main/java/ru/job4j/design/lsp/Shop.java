@@ -30,4 +30,14 @@ public class Shop implements FoodStore {
         }
         return isValid;
     }
+
+    @Override
+    public boolean cleanStore() {
+        boolean isClean = false;
+        if (!list.isEmpty()) {
+            list.clear();
+            isClean = true;
+        }
+        return isClean;
+    }
 }
