@@ -70,4 +70,21 @@ public class SimpleMenuTest {
         Assert.assertEquals("1.1.2.", item.getNumber());
     }
 
+    @Test
+    public void whenOutputWithDoubleChild() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
+        menu.add(Menu.ROOT, "Покормить собаку", STUB_ACTION);
+        menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
+        menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
+        menu.add("Купить продукты", "Купить хлеб", STUB_ACTION);
+        menu.add("Купить продукты", "Купить молоко", STUB_ACTION);
+        Iterator<Menu.MenuItemInfo> it = menu.iterator();
+        assertEquals("Сходить в магазин", it.next().getName());
+        assertEquals("Купить продукты", it.next().getName());
+        assertEquals("Купить хлеб", it.next().getName());
+        assertEquals("Купить молоко", it.next().getName());
+        assertEquals("Покормить собаку", it.next().getName());
+    }
+
 }
